@@ -4,7 +4,7 @@ requires:
 
 [BepInEx 5.4.23.5](https://github.com/BepInEx/BepInEx/releases/tag/v5.4.23.5)
 
-download plugin [here](https://github.com/pseudo-psychic/TASofIGTAP/releases/)
+download plugin [here](https://github.com/pseudo-psychic/IGTAS/releases/)
 
 ## setup:
 Simply run the game after bepinex is in the folder to generate the plugins folder
