@@ -145,7 +145,7 @@ If playback does not work:
 
 1. Unplug the controller
 2. Move around in-game using the keyboard for a moment (this resets input to keyboard)
-3. Start playback again
+3. Start playback again (without reconnecting the controller)
 
 ---
 
