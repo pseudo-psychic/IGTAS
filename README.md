@@ -12,7 +12,7 @@ Tool-Assisted Speedrun (TAS) plugin for **IGTAP — *An Incremental Game That’
 * Plugin download:
   https://github.com/pseudo-psychic/IGTAS/releases/
 
-Tested on **March 1, 2026**.
+Tested on **March 4, 2026**.
 
 ---
 

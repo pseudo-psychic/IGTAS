@@ -588,18 +588,44 @@ namespace IGTAS
         // ==============================
         // INPUT CONTROLS
         // ==============================
+        private bool IsBindingPressed(ConfigEntry<KeyboardShortcut> entry)
+        {
+            var kb = Keyboard.current;
+            if (kb == null) return false;
+
+            var shortcut = entry.Value;
+            if (shortcut.MainKey == KeyCode.None) return false;
+
+            Key mainKey = UnityKeyCodeToInputSystemKey(shortcut.MainKey);
+            if (mainKey == Key.None) return false;
+
+            // Check main key was pressed this frame
+            var ctrl = kb[mainKey];
+            if (ctrl == null || !ctrl.wasPressedThisFrame) return false;
+
+            // Check all modifiers are currently held
+            foreach (var mod in shortcut.Modifiers)
+            {
+                Key modKey = UnityKeyCodeToInputSystemKey(mod);
+                if (modKey == Key.None) continue;
+                if (!(kb[modKey]?.isPressed ?? false)) return false;
+            }
+
+            return true;
+        }
+
         private void HandleTASControls(Keyboard keyboard)
         {
             // Block all TAS hotkeys while waiting for a rebind key press.
             if (rebindingIndex >= 0) return;
 
-            if (keybindToggleSlowdown.Value.IsDown())
+            if (IsBindingPressed(keybindToggleSlowdown))
             {
                 isSlowdownEnabled = !isSlowdownEnabled;
                 Logger.LogInfo($"Slowdown {(isSlowdownEnabled ? "enabled" : "disabled")}.");
             }
 
-            if (keybindStartRecord.Value.IsDown())
+            if (IsBindingPressed(keybindStartRecord))
             {
                 if (isEditing) ExitEditor();
 
@@ -614,7 +640,7 @@ namespace IGTAS
                 Logger.LogInfo("Recording started.");
             }
 
-            if (keybindStopRecord.Value.IsDown())
+            if (IsBindingPressed(keybindStopRecord))
             {
                 if (isRecording)
                 {
@@ -627,7 +653,7 @@ namespace IGTAS
                 Time.timeScale = 1f;
             }
 
-            if (keybindPlayback.Value.IsDown())
+            if (IsBindingPressed(keybindPlayback))
             {
                 if (isEditing) ExitEditor();
 
@@ -649,13 +675,13 @@ namespace IGTAS
                 Logger.LogInfo($"Playback started from {savedInputFile}");
             }
 
-            if (keybindToggleEditor.Value.IsDown())
+            if (IsBindingPressed(keybindToggleEditor))
             {
                 if (isEditing) ExitEditor();
                 else EnterEditor();
             }
 
-            if (keybindInsertFrame.Value.IsDown() && isEditing)
+            if (IsBindingPressed(keybindInsertFrame) && isEditing)
             {
                 int insertAt = Mathf.Clamp(editFrame + 1, 0, recordedFrames.Count);
                 recordedFrames.Insert(insertAt, new FrameInputSnapshot());
@@ -663,7 +689,7 @@ namespace IGTAS
                 Logger.LogInfo($"Inserted blank frame at {insertAt}. Total: {recordedFrames.Count}");
             }
 
-            if (keybindRemoveFrame.Value.IsDown() && isEditing)
+            if (IsBindingPressed(keybindRemoveFrame) && isEditing)
             {
                 if (recordedFrames.Count > 1)
                 {
@@ -791,6 +817,7 @@ namespace IGTAS
                     $"Recording: {isRecording}\n" +
                     $"Replaying: {isReplaying}\n" +
                     $"Editing:   {isEditing}\n" +
+                    $"Slowdown Enabled:   {isSlowdownEnabled}\n" +
                     $"Replay: {replayIndex}/{recordedFrames.Count}";
 
                 GUI.Label(new Rect(10, 10, 400, 240), debugText, debugStyle);
