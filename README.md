@@ -112,13 +112,16 @@ IGTAP/
 
 **Input:** Keyboard only
 
+*Can be rebinded through settings menu on left-hand side*
+
 ### Recording Controls
 
-| Key | Action                    |
-| --- | ------------------------- |
-| F6  | Start recording           |
-| F7  | Stop recording / playback |
-| F8  | Start playback            |
+| Key | Action                                              |
+| --- | --------------------------------------------------- |
+| F5  | Toggle slowdown mode during recording / playback.   |
+| F6  | Start recording                                     |
+| F7  | Stop recording / playback                           |
+| F8  | Start playback                                      |
 
 ---
 
@@ -145,7 +148,7 @@ If playback does not work:
 
 1. Unplug the controller
 2. Move around in-game using the keyboard for a moment (this resets input to keyboard)
-3. Start playback again
+3. Start playback again (without reconnecting the controller)
 
 ---
 
